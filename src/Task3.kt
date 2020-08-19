@@ -1,12 +1,33 @@
 fun main(args: Array<String>) {
     var i = 0
     var cookie = ""
-    while (i < 10 && !cookie.contains("Take it easy")) {
+/*    while (i < 10 && !cookie.contains("Take it easy")) {
         println(i)
         cookie = getFortuneCookie(getBirthday())
         println("Your fortune is: $cookie")
         i++
+    }*/
+
+    run loop@{
+        repeat(10) {
+            cookie = getFortuneCookie(getBirthday())
+            println("Your fortune is: $cookie")
+
+            if (cookie.contains("Take")) return@loop
+        }
     }
+
+    print("After repeat")
+}
+
+fun foo() {
+    run loop@{
+        listOf(1, 2, 3, 4, 5).forEach {
+            if (it == 3) return@loop // non-local return from the lambda passed to run
+            print(it)
+        }
+    }
+    print(" done with nested loop")
 }
 
 fun getFortuneCookie(birthday: Int): String {
